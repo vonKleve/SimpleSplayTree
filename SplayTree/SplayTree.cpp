@@ -1,6 +1,6 @@
 #include "SplayTree.h"
 
-inline Node::~Node()
+/*inline Node::~Node()
 {
 	if (this)
 	{
@@ -11,7 +11,7 @@ inline Node::~Node()
 		if (parent)
 			delete parent;
 	}
-}
+}*/
 
 
 inline void SplayTree::left_rotate(Node *x)
@@ -162,6 +162,53 @@ void SplayTree::show(Node *temp, bool flag, int level)
 		std::cout << temp->key << " name:" << temp->player->alphabet << "\n";
 		show(temp->right, 0, level + 1);
 	}
+}
+
+void SplayTree::erase_element(int val)
+{
+	Node *temp = root;
+	while (temp)
+	{
+		if (temp->key > val) temp = temp->left;
+		else if(temp->key < val) temp = temp->right;
+		else break;
+	}
+	if (!temp)
+		return;
+
+	Node *rMin;
+	if (!temp->left && !temp->right)
+	{
+		if (temp == temp->parent->left)	temp->parent->left = nullptr;
+		else temp->parent->right = nullptr;
+	}
+	else if (!temp->left) {
+		if (temp == temp->parent->left)	temp->parent->left = temp->right;
+		else temp->parent->right = temp->right;
+		temp->right->parent = temp->parent;
+	}
+	else if (!temp->right) {
+		if (temp == temp->parent->left)	temp->parent->left = temp->left;
+		else temp->parent->right = temp->left;
+		temp->left->parent = temp->parent;
+	}
+	else {
+		rMin = subtree_minimum(temp->right);
+		rMin->parent->right = rMin->right;
+		if(rMin->right) rMin->right->parent = rMin->parent;
+		rMin->left = temp->left;
+		if (temp->left) rMin->left->parent = rMin;
+		rMin->right = temp->right;
+		if (temp->right) rMin->right->parent = rMin;
+		rMin->parent = temp->parent;
+		if (temp->parent)
+		{
+			if (temp == temp->parent->left) temp->parent->left = rMin;
+			else temp->parent->right = rMin;
+		}
+		splay(rMin);
+	}
+	delete temp;
 }
 
 void Team::display()

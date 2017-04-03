@@ -20,8 +20,9 @@ struct Node {
 	long key;
 	Player *player;
 	Node *parent, *left, *right;
-	Node(Player *_player = nullptr, long value = 0, Node *_p = nullptr, Node *_l = nullptr, Node *_r = nullptr) : player(_player), key(value), parent(_p), left(_l), right(_r) {};
-	~Node();
+	Node(Player *_player = nullptr, long value = 0, Node *_p = nullptr, Node *_l = nullptr, Node *_r = nullptr) : 
+		player(_player), key(value), parent(_p), left(_l), right(_r) {};
+	//~Node();
 };
 
 class SplayTree final {
@@ -40,4 +41,5 @@ public:
 
 	void insert(Player *, long key);
 	void show(Node *, bool, int);
+	void erase_element(int);
 };

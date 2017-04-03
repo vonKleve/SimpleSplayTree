@@ -40,7 +40,10 @@ int main()
 		cin >> num;
 		tree.insert(pl,num);
 	}
-	tree.show(nullptr,1,0);
+	tree.show(nullptr, 1, 0);
+	tree.erase_element(23);
+	cout << "\n";
+	tree.show(nullptr, 1, 0);
 	cout << "\n\n\n";
 	for (int i = 0; i < teams.size(); i++)
 	{
